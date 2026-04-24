@@ -1,0 +1,11 @@
+import './Statistique.css';
+function Statistique() {
+    return(
+        <div className="Statistique">
+            <span className="statistique-chiffre">10</span>
+            <span className="statistique-libelle">lignes</span>
+        </div>
+        
+    );
+}
+export default Statistique;
