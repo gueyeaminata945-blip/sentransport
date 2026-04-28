@@ -1,5 +1,5 @@
 import './Statistique.css';
-function Statistique() {
+function Statistique1() {
     return(
         <div className="Statistique">
             <span className="statistique-chiffre">10</span>
@@ -8,4 +8,4 @@ function Statistique() {
         
     );
 }
-export default Statistique;
+export default Statistique1;
