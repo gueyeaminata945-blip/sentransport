@@ -47,3 +47,12 @@
   color: #7f8c8d;
   margin-top: 4px;
 }
+
+.ligne-bus-active {
+  border-left: 4px solid #0a6e22;
+  background-color: #fef9f3;
+}
+
+.ligne-bus-active .ligne-numero {
+  background-color: #0a6e22;
+}
