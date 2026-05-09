@@ -9,7 +9,11 @@ import Footer from './Footer';
 function App() {
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
-
+  const [nbRecherches, setNbRecherches] = useState(0);
+  function handleRecherche(valeur) {
+    setRecherche(valeur);
+    setNbRecherches(n => n + 1);
+  }
   // Remplacez ce commentaire par votre tableau de données de l'étape 1
     /* { id: 1, numero: "1", depart: "Dakar", arrivee: "Pikine", arrets: 12, listeArrets: [...] }, etc. */
     const lignes = [
@@ -96,12 +100,15 @@ function App() {
       <Header />
       
       <main className="contenu">
-        <Recherche valeur={recherche} onChange={setRecherche} />
-        
+        <Recherche valeur={recherche} onChange={handleRecherche} />
+        <p style={{color: "#7f8c8d", fontSize: "0.85rem", marginBottom: "8px"}}> Vous avez effectué {nbRecherches} recherche{nbRecherches > 1 ? 's' : ''}</p>
         <p className="resultat-recherche">
           {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' : ''} trouvée{lignesFiltrees.length > 1 ? 's' : ''}
         </p>
 
+        {lignesFiltrees.length === 0 && (
+          <p style={{textAlign: 'center', color: '#e74c3c', marginTop: "20px"}}>Aucune ligne trouvée pour "{recherche}"</p>
+        )}
         {lignesFiltrees.map((ligne) => (
           <LigneBus
             key={ligne.id}
