@@ -19,24 +19,31 @@ function App() {
     setNbRecherches(n => n + 1);
   }
 
-  // Charger les données depuis Flask au démarrage
-  useEffect(() => {
-    fetch("http://localhost:5000/lignes")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Erreur serveur : " + response.status);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setLignes(data);
-        setChargement(false);
-      })
-      .catch(error => {
-        setErreur(error.message);
-        setChargement(false);
-      });
-  }, []);
+  // Fonction fetch séparée (réutilisable)
+function chargerLignes() {
+  setChargement(true);
+  setErreur(null);
+  fetch("http://localhost:5000/lignes")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erreur serveur : " + response.status);
+      }
+      return response.json();
+    })
+    .then(data => {
+      setLignes(data);
+      setChargement(false);
+    })
+    .catch(error => {
+      setErreur(error.message);
+      setChargement(false);
+    });
+}
+
+// Appel au démarrage
+useEffect(() => {
+  chargerLignes();
+}, []); 
 
   const lignesFiltrees = lignes.filter((l) =>
     l.depart.toLowerCase().includes(recherche.toLowerCase()) ||
@@ -45,12 +52,27 @@ function App() {
   );
 
   function handleClickLigne(ligne) {
-    if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
-      setLigneSelectionnee(null);
-    } else {
-      setLigneSelectionnee(ligne);
-    }
+  // Si on reclique sur la même ligne, on la ferme
+  if (ligneSelectionnee && ligneSelectionnee.id === ligne.id) {
+    setLigneSelectionnee(null);
+    return;
   }
+
+  // Sinon on charge les détails depuis Flask
+  fetch(`http://localhost:5000/lignes/${ligne.id}`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erreur serveur : " + response.status);
+      }
+      return response.json();
+    })
+    .then(data => {
+      setLigneSelectionnee(data);
+    })
+    .catch(error => {
+      console.error("Erreur chargement détails :", error.message);
+    });
+}
 
   // Écran de chargement
   if (chargement) {
@@ -86,6 +108,18 @@ function App() {
       <Header />
       <main className="contenu">
         <Recherche valeur={recherche} onChange={handleRecherche} />
+        <button onClick={chargerLignes} style={{
+            marginBottom: "12px",
+            padding: "8px 16px",
+            backgroundColor: "#27ae60",
+            color: "white",
+            border: "none",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontSize: "0.9rem"
+        }}>
+             Recharger
+        </button>
         <p style={{color: "#7f8c8d", fontSize: "0.85rem", marginBottom: "8px"}}>
           Vous avez effectué {nbRecherches} recherche{nbRecherches > 1 ? 's' : ''}
         </p>

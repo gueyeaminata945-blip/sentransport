@@ -44,5 +44,21 @@
         "arrivee": "Sandaga",
         "arrets": 11,
         "listeArrets": ["Yoff Village", "Areoport LSS", "Parcelle U17", "Grand Yoff", "HLM", "Sandaga"]
+    },
+
+    {
+        "id": 7, "numero": "5",
+        "depart": "Thiaroye",
+        "arrivee": "HLM",
+        "arrets": 13,
+        "listeArrets": ["Thiaroye Gare", "Pikine", "Guediawaye", "Keur Massar", "Grand Yoff", "Parcelles", "Liberte 6", "HLM"]
+    }, 
+
+    {
+        "id": 8, "numero": "20",
+        "depart": "Mermoz",
+        "arrivee": "Fass",
+        "arrets": 9,
+        "listeArrets": ["Mermoz", "Fann", "Point E", "Liberte 5", "Fass"]
     }
 ]
